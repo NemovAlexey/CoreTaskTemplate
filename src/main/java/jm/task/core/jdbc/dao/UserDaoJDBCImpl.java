@@ -19,7 +19,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try {
             Statement statement = Util.getConnection().createStatement();
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Users( id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(20), lastName VARCHAR(20), age INT, PRIMARY KEY (id))");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Users(id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(20), lastName VARCHAR(20), age INT, PRIMARY KEY (id))");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,6 +42,7 @@ public class UserDaoJDBCImpl implements UserDao {
             pst.setString(2, lastName);
             pst.setByte(3, age);
             pst.executeUpdate();
+            System.out.printf("User с именем – %s добавлен в базу данных\n", name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
