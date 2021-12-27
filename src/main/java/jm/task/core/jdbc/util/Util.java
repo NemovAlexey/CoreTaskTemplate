@@ -5,10 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         final String URL = "jdbc:mysql://localhost:3306/user_schema";
         final String USERNAME = "root";
         final String PASSWORD = "Nhbnjy667";
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 }
