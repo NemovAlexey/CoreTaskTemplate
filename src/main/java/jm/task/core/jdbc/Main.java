@@ -5,11 +5,12 @@ import jm.task.core.jdbc.service.UserServiceImpl;
 public class Main {
     public static void main(String[] args) {
         UserServiceImpl us = new UserServiceImpl();
+        us.dropUsersTable();
         us.createUsersTable();
-        for (int i = 1; i <= 4; i++) {
-            us.saveUser("Name" + i, "lastName" + i, (byte) (30 + i));
+        for (int i = 0; i <= 3; i++) {
+            us.saveUser("Aleksei" + i, "Nemov" + i, (byte) (30 + i));
             System.out.printf("User с именем – %s добавлен в базу данных\n",
-                    us.getAllUsers().get(us.getAllUsers().size() - 1).getName());
+                    us.getAllUsers().get(i).getName());
         }
         us.getAllUsers().forEach(System.out::println);
         us.cleanUsersTable();
