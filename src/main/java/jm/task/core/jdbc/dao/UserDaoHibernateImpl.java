@@ -8,9 +8,6 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    public UserDaoHibernateImpl() {
-
-    }
 
     @Override
     public void createUsersTable() {
@@ -18,9 +15,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.beginTransaction();
         String sql = "CREATE TABLE IF NOT EXISTS User(id BIGINT NOT NULL AUTO_INCREMENT, " +
                 "name VARCHAR(20), lastName VARCHAR(20), age TINYINT, PRIMARY KEY (id))";
-        session.createSQLQuery(sql)
-                .addEntity(User.class)
-                .executeUpdate();
+        session.createNativeQuery(sql, User.class).executeUpdate();
         transaction.commit();
         session.close();
     }
@@ -29,9 +24,8 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.createSQLQuery("DROP TABLE IF EXISTS User")
-                .addEntity(User.class)
-                .executeUpdate();
+        String sql = "DROP TABLE IF EXISTS User";
+        session.createNativeQuery(sql, User.class).executeUpdate();
         transaction.commit();
         session.close();
     }
@@ -40,7 +34,8 @@ public class UserDaoHibernateImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(new User(name, lastName, age));
+        User user = new User(name, lastName, age);
+        session.persist(user);
         transaction.commit();
         session.close();
     }
@@ -66,8 +61,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         Session session = Util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.createQuery("DELETE FROM User")
-                .executeUpdate();
+        session.createNativeQuery("DELETE FROM User", User.class).executeUpdate();
         transaction.commit();
         session.close();
     }
