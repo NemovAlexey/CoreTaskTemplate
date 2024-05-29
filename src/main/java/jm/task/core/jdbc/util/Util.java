@@ -23,18 +23,9 @@ public class Util {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-                Properties settings = new Properties();
-                settings.put(Environment.DRIVER, DRIVER);
-                settings.put(Environment.URL, URL);
-                settings.put(Environment.USER, USERNAME);
-                settings.put(Environment.PASS, PASSWORD);
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-                settings.put(Environment.SHOW_SQL, "true");
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+                Properties settings = getProperties();
 
-                configuration.setProperties(settings)
-                        .addAnnotatedClass(User.class);
+                configuration.setProperties(settings).addAnnotatedClass(User.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();
@@ -45,6 +36,19 @@ public class Util {
             }
         }
         return sessionFactory;
+    }
+
+    private static Properties getProperties() {
+        Properties settings = new Properties();
+        settings.put(Environment.JAKARTA_JDBC_DRIVER, DRIVER);
+        settings.put(Environment.JAKARTA_JDBC_URL, URL);
+        settings.put(Environment.JAKARTA_JDBC_USER, USERNAME);
+        settings.put(Environment.JAKARTA_JDBC_PASSWORD, PASSWORD);
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        settings.put(Environment.SHOW_SQL, "true");
+        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+        settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+        return settings;
     }
 
     public static Connection getConnection() {

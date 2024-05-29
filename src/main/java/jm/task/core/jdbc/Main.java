@@ -14,7 +14,7 @@ public class Main {
                     userService.getAllUsers().get(i).getName());
         }
         userService.getAllUsers().forEach(System.out::println);
-//        userService.cleanUsersTable();
-//        userService.dropUsersTable();
+        userService.cleanUsersTable();
+        userService.dropUsersTable();
     }
 }
